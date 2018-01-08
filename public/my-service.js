@@ -1,6 +1,8 @@
 /**
  * 如果要预缓存的文件内容发生改变，则需要更改cacheName,来保证sw 文件修改
  * 从而导致sw 重新执行安装等，达到缓存文件及时更新等木的
+ * 
+ * 
  */
 var cacheName = 'bund-1';
 var expectedCaches = [cacheName];
@@ -50,6 +52,10 @@ self.addEventListener('activate', function (event) {
 });
 
 
+/**
+ * 
+ * 缓存优先
+ */
 function fetchApi(event) {
     event.respondWith(
         caches.match(event.request)
@@ -91,3 +97,64 @@ self.addEventListener('fetch', (event) => {
         }
     }
 });
+
+
+/**
+ * web push and notificationclick action
+ */
+
+self.addEventListener('push', function (event) {
+    /**
+     * message
+     * 
+     * {
+        "msg": "哈哈哈哈",
+        "url": "https://localhost:3111",
+        "icon": "http://localhost:9000/logo-192x192.png",
+        "type": "actionMessage"
+        }
+     */
+    
+    var payload = event.data ? JSON.parse(event.data.text()) : 'no payload';
+
+    var title = 'progressive web app demo';
+
+    // Determine the type of notification to display
+    if (payload.type === 'register') {
+        event.waitUntil(
+            self.registration.showNotification(title, {
+                body: payload.msg,
+                url: payload.url,
+                icon: payload.icon
+            })
+        );
+    } else if (payload.type === 'actionMessage') {
+        event.waitUntil(
+            self.registration.showNotification(title, {
+                body: payload.msg,
+                url: payload.url,
+                icon: payload.icon,
+                actions: [
+                    // { action: 'voteup', title: '👍 Vote Up' },
+                    {
+                        action: 'votedown',
+                        title: '👎 Vote Down'
+                    }
+                ]
+            })
+        );
+    }
+});
+
+self.addEventListener('notificationclick', function (event) {
+    event.notification.close();
+
+    // Check if any actions were added
+    if (event.action === 'voteup') {
+        clients.openWindow('http://localhost:3000/todos');
+    } else if (event.action === 'voteup') {
+        clients.openWindow('http://localhost:3000/todos');
+    } else {
+        clients.openWindow('http://localhost:3000/todos');
+    }
+}, false);

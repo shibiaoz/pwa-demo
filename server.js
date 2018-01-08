@@ -9,12 +9,6 @@ AV.init({
 });
 
 
-// AV.init({
-//     appId: 'xbfJeowsdrpXigPwss7Gt9sY-gzGzoHsz',
-//     appKey: 'KKzmTkymQlquidq1YmsbjdyN',
-//     masterKey: 'vufs0fTxDhlRGTIOh6CJrM4Q'
-//   });
-
 // 如果不希望使用 masterKey 权限，可以将下面一行删除
 AV.Cloud.useMasterKey();
 

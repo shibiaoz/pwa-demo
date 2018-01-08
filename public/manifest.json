@@ -1,0 +1,17 @@
+{
+    "name": "测是添加到主屏幕",
+    "short_name": "应用简称",
+    "description": "这是应用的描述",
+    "lang": "cn",
+    "icons": [{
+            "src": "logo-192x192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        }
+    ],
+    "start_url": "/index.html",
+    "display": "fullscreen",
+    "orientation": "portrait",
+    "theme_color": "#0096ff",
+    "background_color": "red"
+}
